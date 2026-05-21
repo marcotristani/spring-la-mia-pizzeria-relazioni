@@ -1,0 +1,54 @@
+<th:block th:fragment="navbar(titlePage, page)">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <h1 class="mx-5">[[${titlePage}]]</h1>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <!-- Link Home -->
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              th:classappend="${page == 'homepage'} ? 'active'"
+              th:aria-current="${page == 'homepage'} ? 'page'"
+              th:href="@{/homepage}"
+              >Home</a
+            >
+          </li>
+
+          <!-- Link Pizze -->
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              th:classappend="${page == 'pizzas'} ? 'active'"
+              th:aria-current="${page == 'pizzas'} ? 'page'"
+              th:href="@{/pizzas}"
+              >Pizze</a
+            >
+          </li>
+
+          <!-- Link Ingredienti -->
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              th:classappend="${page == 'ingredienti'} ? 'active'"
+              th:aria-current="${page == 'ingredienti'} ? 'page'"
+              th:href="@{/ingredienti}"
+              >Ingredienti</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</th:block>

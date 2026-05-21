@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="it" xmlns:th="http://thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <th:block th:replace="~{fragments/head :: head('Homepage')}" />
+  </head>
+  <body class="bg-light d-flex flex-column min-vh-100">
+    <!-- Inclusione della tua Navbar Dinamica -->
+    <div
+      th:replace="~{fragments/navbar :: navbar('Benvenuti', 'homepage')}"
+    ></div>
+
+    <header
+      class="py-5 text-center bg-dark text-white position-relative"
+      style="
+        background-image:
+          linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+          url(https://t3.ftcdn.net/jpg/09/78/65/50/360_F_978655000_e9DDMuf6Oa3XImXicaGFsJEaY6Hdcz47.jpg);
+        background-size: cover;
+        background-position: center;
+        min-height: 400px;
+      "
+    >
+      <div
+        class="position-absolute top-50 start-50 translate-middle w-100 px-3"
+      >
+        <h2 class="display-4 fw-bold text-warning text-uppercase mb-3">
+          La Vera Pizza Napoletana
+        </h2>
+        <p class="lead fs-4 mb-4">
+          Tradizione, passione e ingredienti a KM zero dal lontano 1994.
+        </p>
+        <a
+          th:href="@{/pizzas}"
+          class="btn btn-warning btn-lg px-4 gap-3 fw-bold shadow"
+          >Vedi il Menu</a
+        >
+      </div>
+    </header>
+
+    <main class="container my-5 flex-grow-1">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-6">
+          <h3 class="display-6 fw-bold mb-3 text-success">
+            La Nostra Storia (Inventata)
+          </h3>
+          <p class="lead text-muted">
+            Fondata nel cuore pulsante della città, la
+            <em>Pizzeria Da Luigi</em> nasce da un'idea folle: far lievitare
+            l'impasto a ritmo di musica lirica per esattamente 72 ore
+            consecutive.
+          </p>
+          <p class="mb-4">
+            Il nostro mastro pizzaiolo Luigi seleziona ogni mattina solo
+            pomodori coltivati sulle pendici di vulcani immaginari e mozzarelle
+            di bufala che hanno superato esami di filosofia. Il risultato? Una
+            pizza così leggera che potrebbe volare via se non fosse per
+            l'abbondante e filante cascata di formaggio che ci mettiamo sopra.
+          </p>
+
+          <div class="row g-4 mt-2">
+            <div class="col-sm-6 d-flex align-items-start">
+              <div>
+                <h5 class="fw-bold mb-1">Forno a Legna</h5>
+                <p class="text-muted small">
+                  Cottura violenta a 450 gradi per una morbidezza unica.
+                </p>
+              </div>
+            </div>
+            <div class="col-sm-6 d-flex align-items-start">
+              <div>
+                <h5 class="fw-bold mb-1">Ingredienti Top</h5>
+                <p class="text-muted small">
+                  Solo prodotti certificati e amati dal nostro staff.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Seconda Immagine d'Impatto -->
+        <div class="col-lg-6">
+          <div class="card border-0 shadow">
+            <img
+              src="https://naxos-cdn01.gruppocdt.ch/cdt/stories/2024/12/15/1920x1080/00995114-fddc-4b0c-b1fc-6394a19433cb.jpeg"
+              class="img-fluid rounded shadow-sm"
+              alt="Mastro pizzaiolo al lavoro"
+            />
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer (Piè di pagina) -->
+    <footer class="bg-dark text-white text-center py-4 mt-auto">
+      <div class="container">
+        <p class="mb-1">
+          &copy; 2026 Pizzeria Da Luigi. Tutti i diritti riservati (forse).
+        </p>
+        <small class="text-muted"
+          >Via delle Pizze Volanti, 42 - Telefono: 0123 456789</small
+        >
+      </div>
+    </footer>
+
+    <!-- Script di Bootstrap per far funzionare i menu a tendina o l'hamburger menu -->
+    <script
+      th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"
+    ></script>
+  </body>
+</html>

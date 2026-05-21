@@ -1,0 +1,13 @@
+<th:block th:fragment="cardPizza(pizza)">
+<div th:object="${pizza}" class="card h-100" >
+  <img src="https://assets.tmecosys.com/image/upload/t_web_rdp_recipe_584x480/img/recipe/ras/Assets/5802fab5-fdce-468a-a830-43e8001f5a72/Derivates/c00dc34a-e73d-42f0-a86e-e2fd967d33fe.jpg" class="card-img-top" alt="immagine pizza">
+  <div class="card-body">
+    <h5 class="card-title">[[*{nome}]]</h5>
+    <p class="card-text">[[*{description}]]</p>
+    <div class="d-flex justify-content-between align-items-center mt-3">
+      <a th:href="@{|/pizzas/*{id}|}" class="btn btn-primary" role="button">Show</a>
+      <span class="fw-bold text-success fs-5">€ [[*{price}]]</span>
+    </div>  
+  </div>
+</div>
+</th:block>

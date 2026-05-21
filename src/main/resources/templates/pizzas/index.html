@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <th:block th:replace="~{fragments/head :: head('Lista pizze')}" />
+  </head>
+  <body>
+    <th:block th:replace="~{fragments/navbar :: navbar('Le Pizze','pizzas')}" />
+    <div class="container my-5">
+      <div class="row g-4">
+        <div th:each="pizza : ${pizzas}" class="col-md-4 col-sm-6 col-12">
+          <th:block
+            th:replace="~{fragments/cardPizza :: cardPizza(${pizza})}"
+          />
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
