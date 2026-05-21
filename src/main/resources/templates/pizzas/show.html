@@ -4,58 +4,31 @@
     <meta charset="UTF-8" />
     <th:block th:replace="~{fragments/head :: head(|Pizza ${pizza.nome}|)}" />
   </head>
-  <body>
-    <div th:text="${pizza}"></div>
-
-    <!-- Button trigger modal -->
-    <button
-      type="button"
-      class="btn btn-primary"
-      data-bs-toggle="modal"
-      data-bs-target="#delete-pizza"
-    >
-      DELETE
-    </button>
-
-    <!-- Modal -->
-    <div
-      class="modal fade"
-      id="delete-pizza"
-      tabindex="-1"
-      aria-labelledby="delete-pizza-label"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="delete-pizza-label">
-              Eliminazione definitiva
-            </h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
+  <body class="bg-light">
+    <div th:object="${pizza}" class="container my-5" style="max-width: 600px">
+      <div class="card shadow-sm mb-4">
+        <div class="card-body text-center py-4">
+          <h1 class="card-title h3 mb-3" th:text="*{nome}">Nome Pizza</h1>
+          <p class="card-text text-muted mb-4" th:text="*{description}">
+            Descrizione dettagliata della pizza...
+          </p>
+          <div class="h4 text-success mb-4">
+            <span th:text="*{price}">0.00</span> €
           </div>
-          <div class="modal-body">
-            Sei sicuro di voler eliminare la pizza [[${pizza.nome}]]
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <form th:action="@{|/pizzas/${pizza.id}/delete|}" method="get">
-              <input type="submit" class="btn btn-secondary" value="delete" />
-            </form>
-          </div>
+          <button
+            type="button"
+            class="btn btn-danger px-4"
+            data-bs-toggle="modal"
+            th:data-bs-target="|#delete-pizza-*{id}|"
+          >
+            Elimina Pizza
+          </button>
         </div>
       </div>
     </div>
+    <div
+      th:replace="~{fragments/delete-modal :: delete-modal(${pizza}, 'pizza')}"
+    ></div>
 
     <script
       th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"

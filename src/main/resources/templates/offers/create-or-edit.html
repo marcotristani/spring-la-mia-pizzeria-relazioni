@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="it" xmlns:th="http://thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <th:block th:replace="~{fragments/head :: head('Offerte')}" />
+  </head>
+  <body class="bg-light">
+    <div
+      th:replace="~{fragments/navbar :: navbar('Nuova offerta','offers')}"
+    ></div>
+
+    <div class="container my-5">
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+          <!-- Card contenitore per il modulo -->
+          <div class="card shadow-sm border-0">
+            <div class="card-body p-4 p-md-5">
+              <h2 class="card-title h4 mb-4 text-dark fw-bold text-center">
+                Crea Nuova Offerta
+              </h2>
+
+              <form
+                class="row g-4 needs-validation"
+                novalidate
+                th:action="${edit} ? @{|/offers/${offerta.id}/edit|} : @{/offers/create}"
+                method="post"
+                th:object="${offerta}"
+              >
+                <div class="col-12">
+                  <label
+                    for="nome"
+                    class="form-label fw-semibold small text-muted"
+                    >Nome offerta:</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control form-control-lg fs-6"
+                    id="nome"
+                    placeholder="Es. Sconto d'Autunno"
+                    th:field="*{nome}"
+                    th:errorClass="is-invalid"
+                    th:classappend="${#fields.hasAnyErrors() and !#fields.hasErrors('nome')} ? 'is-valid'"
+                    required
+                  />
+                  <div
+                    class="invalid-feedback"
+                    th:if="${#fields.hasErrors('nome')}"
+                  >
+                    <div th:each="error : ${#fields.errors('nome')}">
+                      [[${error}]]
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <label
+                    for="dataInizio"
+                    class="form-label fw-semibold small text-muted"
+                    >Data inizio:</label
+                  >
+                  <input
+                    type="date"
+                    class="form-control form-control-lg fs-6"
+                    id="dataInizio"
+                    th:field="*{dataInizio}"
+                    th:errorClass="is-invalid"
+                    th:classappend="${#fields.hasAnyErrors() and !#fields.hasErrors('dataInizio')} ? 'is-valid'"
+                    required
+                  />
+                  <div
+                    class="invalid-feedback"
+                    th:if="${#fields.hasErrors('dataInizio')}"
+                  >
+                    <div th:each="error : ${#fields.errors('dataInizio')}">
+                      [[${error}]]
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <label
+                    for="dataFine"
+                    class="form-label fw-semibold small text-muted"
+                    >Data Fine:</label
+                  >
+                  <input
+                    type="date"
+                    class="form-control form-control-lg fs-6"
+                    id="dataFine"
+                    th:field="*{dataFine}"
+                    th:errorClass="is-invalid"
+                    th:classappend="${#fields.hasAnyErrors() and !#fields.hasErrors('dataFine')} ? 'is-valid'"
+                    required
+                  />
+                  <div
+                    class="invalid-feedback"
+                    th:if="${#fields.hasErrors('dataFine')}"
+                  >
+                    <div th:each="error : ${#fields.errors('dataFine')}">
+                      [[${error}]]
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12 pt-2 d-grid gap-2">
+                  <input
+                    class="btn btn-primary btn-lg fs-6 shadow-sm"
+                    type="submit"
+                    value="Salva Offerta"
+                  />
+                  <a
+                    th:href="@{/offers}"
+                    class="btn btn-link btn-sm text-decoration-none text-muted"
+                  >
+                    Torna alla lista
+                  </a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
