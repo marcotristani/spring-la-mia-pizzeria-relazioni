@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.learn.spring.spring_la_mia_pizzeria_relazioni.models.Offerte;
 import com.learn.spring.spring_la_mia_pizzeria_relazioni.models.Pizza;
 import com.learn.spring.spring_la_mia_pizzeria_relazioni.repository.PizzaRepository;
 
@@ -78,4 +79,13 @@ public class PizzaController {
         repositoryPizza.deleteById(id);
         return "redirect:/pizzas";
     }
+
+    @GetMapping("/{id}/offerta")
+    public String addOfferta(@PathVariable("id") Integer id, Model model) {
+        Offerte offerta = new Offerte();
+        offerta.setPizza(repositoryPizza.findById(id).get());
+        model.addAttribute("offerta", offerta);
+        return "offers/create-or-edit";
+    }
+
 }

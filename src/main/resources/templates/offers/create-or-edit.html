@@ -18,7 +18,7 @@
                 th:unless="${edit}"
                 class="card-title h4 mb-4 text-dark fw-bold text-center"
               >
-                Crea Nuova Offerta
+                Crea Nuova Offerta per la pizza [[${offerta.pizza.nome}]]
               </h2>
 
               <h2
@@ -34,6 +34,7 @@
                 method="post"
                 th:object="${offerta}"
               >
+                <input type="hidden" id="pizza_id" th:field="*{pizza.id}" />
                 <div class="col-12">
                   <label
                     for="nome"

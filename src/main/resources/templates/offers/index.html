@@ -9,13 +9,6 @@
     <div th:replace="~{fragments/navbar :: navbar('Offerte','offers')}"></div>
 
     <div class="container my-5">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="h3 mb-0 text-dark fw-bold">Elenco Offerte Speciali</h1>
-        <a th:href="@{/offers/create}" class="btn btn-primary shadow-sm">
-          Nuova Offerta
-        </a>
-      </div>
-
       <div
         th:if="${#lists.isEmpty(offerte)}"
         class="alert alert-info text-center py-4 shadow-sm border-0"
@@ -33,10 +26,11 @@
           <table class="table table-hover align-middle mb-0">
             <thead class="table-light text-muted small uppercase">
               <tr>
-                <th class="ps-4 py-3" style="width: 40%">Nome Offerta</th>
+                <th class="ps-4 py-3" style="width: 30%">Nome Offerta</th>
+                <th class="py-3" style="width: 25%">Pizza Associata</th>
                 <th class="py-3">Valida Dal</th>
                 <th class="py-3">Fino Al</th>
-                <th class="pe-4 py-3 text-end" style="width: 25%">Azioni</th>
+                <th class="pe-4 py-3 text-end" style="width: 20%">Azioni</th>
               </tr>
             </thead>
             <tbody>
@@ -44,6 +38,24 @@
                 <!-- Nome Offerta -->
                 <td class="ps-4 fw-semibold text-dark" th:text="*{nome}">
                   Nome Offerta
+                </td>
+
+                <!-- Pizza Associata (Oggetto Singolo) -->
+                <td>
+                  <div th:if="*{pizza != null}">
+                    <span
+                      class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill small fw-medium px-2.5 py-1.5"
+                    >
+                      <i class="bi bi-dot"></i>
+                      <span th:text="*{pizza.nome}">Nome Pizza</span>
+                    </span>
+                  </div>
+                  <span
+                    th:if="*{pizza == null}"
+                    class="text-muted small fst-italic"
+                  >
+                    Nessuna pizza
+                  </span>
                 </td>
 
                 <td>

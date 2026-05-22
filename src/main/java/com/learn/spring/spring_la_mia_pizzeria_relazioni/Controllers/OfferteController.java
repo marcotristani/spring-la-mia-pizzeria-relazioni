@@ -27,11 +27,11 @@ public class OfferteController {
         return "offers/index";
     }
 
-    @GetMapping("/create")
-    public String create(Model model) {
-        model.addAttribute("offerta", new Offerte());
-        return "offers/create-or-edit";
-    }
+    // @GetMapping("/create")
+    // public String create(Model model) {
+    // model.addAttribute("offerta", new Offerte());
+    // return "offers/create-or-edit";
+    // }
 
     @PostMapping("/create")
     public String store(@Validated @ModelAttribute("offerta") Offerte formOfferta,

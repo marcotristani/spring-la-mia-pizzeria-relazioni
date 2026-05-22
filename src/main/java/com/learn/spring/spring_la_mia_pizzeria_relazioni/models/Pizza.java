@@ -1,6 +1,7 @@
 package com.learn.spring.spring_la_mia_pizzeria_relazioni.models;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.URL;
@@ -10,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -38,6 +40,17 @@ public class Pizza {
     @NotNull
     @ColumnDefault("'https://png.pngtree.com/png-vector/20250825/ourlarge/pngtree-delicious-margherita-pizza-illustration-png-image_17178157.webp'")
     private String url_image;
+
+    @OneToMany(mappedBy = "pizza")
+    private List<Offerte> offerte;
+
+    public List<Offerte> getOfferte() {
+        return offerte;
+    }
+
+    public void setOfferte(List<Offerte> offerte) {
+        this.offerte = offerte;
+    }
 
     public Integer getId() {
         return id;

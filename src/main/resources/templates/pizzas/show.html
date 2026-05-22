@@ -10,8 +10,8 @@
     <div th:replace="~{fragments/navbar :: navbar(Pizze, 'pizzas')}"></div>
 
     <div th:object="${pizza}" class="container my-5" style="max-width: 600px">
+      <!-- Card Dettaglio Pizza -->
       <div class="card shadow-sm border-0 mb-4">
-        <!-- Rimosso l'URL statico e usata la proprietà url_image per mostrare la foto della pizza -->
         <img
           th:if="*{url_image != null and !url_image.empty}"
           th:src="*{url_image}"
@@ -31,23 +31,57 @@
             <span th:text="*{price}">0.00</span> €
           </div>
 
-          <!-- Contenitore pulsanti di gestione per affiancarli correttamente -->
           <div class="d-flex justify-content-center gap-2">
-            <!-- Pulsante Modifica Pizza (Stile primario azzurro coerente) -->
             <a th:href="@{|/pizzas/*{id}/edit|}" class="btn btn-primary px-4">
               <i class="bi bi-pencil"></i> Modifica Pizza
             </a>
-
-            <!-- Pulsante Elimina Pizza -->
             <button
               type="button"
               class="btn btn-danger px-4"
               data-bs-toggle="modal"
               th:data-bs-target="|#delete-pizza-*{id}|"
             >
-              <i class="bi bi-trash"></i> Elimina Pizza
+              Elimina Pizza
             </button>
           </div>
+        </div>
+      </div>
+
+      <!-- SEZIONE OFFERTE -->
+      <div class="card shadow-sm border-0 p-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h2 class="h5 text-dark fw-bold mb-0">Offerte Attive</h2>
+          <!-- Bottone Aggiungi Offerta -->
+          <a
+            th:href="@{|/pizzas/*{id}/offerta|}"
+            class="btn btn-sm btn-outline-success px-3"
+            >Nuova Offerta
+          </a>
+        </div>
+
+        <!-- Lista delle Offerte -->
+        <ul
+          th:if="*{not #lists.isEmpty(offerte)}"
+          class="list-group list-group-flush"
+        >
+          <li
+            th:each="offerta : *{offerte}"
+            class="list-group-item d-flex justify-content-between align-items-center px-0 py-2"
+          >
+            <div class="d-flex align-items-center gap-2">
+              <span th:text="${offerta.nome}" class="text-dark fw-medium"
+                >Nome Offerta</span
+              >
+            </div>
+          </li>
+        </ul>
+
+        <!-- Messaggio se non ci sono offerte -->
+        <div
+          th:if="*{#lists.isEmpty(offerte)}"
+          class="text-center py-3 text-muted small"
+        >
+          Nessuna offerta attiva per questa pizza.
         </div>
       </div>
     </div>
