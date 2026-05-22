@@ -2,30 +2,56 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
+    <!-- Sostituito con th:block per mantenere la validità del frammento head -->
     <th:block th:replace="~{fragments/head :: head(|Pizza ${pizza.nome}|)}" />
   </head>
   <body class="bg-light">
+    <!-- Navbar inclusa globalmente in cima alla pagina -->
+    <div th:replace="~{fragments/navbar :: navbar(Pizze, 'pizzas')}"></div>
+
     <div th:object="${pizza}" class="container my-5" style="max-width: 600px">
-      <div class="card shadow-sm mb-4">
+      <div class="card shadow-sm border-0 mb-4">
+        <!-- Rimosso l'URL statico e usata la proprietà url_image per mostrare la foto della pizza -->
+        <img
+          th:if="*{url_image != null and !url_image.empty}"
+          th:src="*{url_image}"
+          class="card-img-top"
+          th:alt="*{nome}"
+          style="height: 300px; object-fit: cover"
+        />
+
         <div class="card-body text-center py-4">
-          <h1 class="card-title h3 mb-3" th:text="*{nome}">Nome Pizza</h1>
+          <h1 class="card-title h3 mb-3 text-dark fw-bold" th:text="*{nome}">
+            Nome Pizza
+          </h1>
           <p class="card-text text-muted mb-4" th:text="*{description}">
             Descrizione dettagliata della pizza...
           </p>
-          <div class="h4 text-success mb-4">
+          <div class="h4 text-success fw-bold mb-4">
             <span th:text="*{price}">0.00</span> €
           </div>
-          <button
-            type="button"
-            class="btn btn-danger px-4"
-            data-bs-toggle="modal"
-            th:data-bs-target="|#delete-pizza-*{id}|"
-          >
-            Elimina Pizza
-          </button>
+
+          <!-- Contenitore pulsanti di gestione per affiancarli correttamente -->
+          <div class="d-flex justify-content-center gap-2">
+            <!-- Pulsante Modifica Pizza (Stile primario azzurro coerente) -->
+            <a th:href="@{|/pizzas/*{id}/edit|}" class="btn btn-primary px-4">
+              <i class="bi bi-pencil"></i> Modifica Pizza
+            </a>
+
+            <!-- Pulsante Elimina Pizza -->
+            <button
+              type="button"
+              class="btn btn-danger px-4"
+              data-bs-toggle="modal"
+              th:data-bs-target="|#delete-pizza-*{id}|"
+            >
+              <i class="bi bi-trash"></i> Elimina Pizza
+            </button>
+          </div>
         </div>
       </div>
     </div>
+
     <div
       th:replace="~{fragments/delete-modal :: delete-modal(${pizza}, 'pizza')}"
     ></div>

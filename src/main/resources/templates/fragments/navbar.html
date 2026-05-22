@@ -1,53 +1,90 @@
 <th:block th:fragment="navbar(titlePage, page)">
-  <nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-      <h1 class="mx-5">[[${titlePage}]]</h1>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
+  <nav class="navbar navbar-expand-lg bg-body-tertiary py-3">
+    <!-- Contenitore flex con tre macro-aree fisse -->
+    <div
+      class="container-fluid d-flex justify-content-between align-items-center m-0 p-0 position-relative"
+    >
+      <!-- AREA 1: Sinistra (Titolo) - Prende il 33% dello spazio e isola il testo -->
+      <div
+        class="d-flex align-items-center ps-3 ps-lg-5"
+        style="flex: 1; min-width: 0"
       >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <!-- Link Home -->
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              th:classappend="${page == 'homepage'} ? 'active'"
-              th:aria-current="${page == 'homepage'} ? 'page'"
-              th:href="@{/homepage}"
-              >Home</a
-            >
-          </li>
+        <h1 class="m-0 h3 text-truncate">[[${titlePage}]]</h1>
+      </div>
 
-          <!-- Link Pizze -->
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              th:classappend="${page == 'pizzas'} ? 'active'"
-              th:aria-current="${page == 'pizzas'} ? 'page'"
-              th:href="@{/pizzas}"
-              >Pizze</a
-            >
-          </li>
+      <!-- AREA 2: Centro (Toggler + Menu) - Perfettamente centrato nello schermo -->
+      <div
+        class="d-flex justify-content-center align-items-center"
+        style="flex: 1"
+      >
+        <!-- Bottone mobile -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-          <!-- Link Ingredienti -->
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              th:classappend="${page == 'ingredienti'} ? 'active'"
-              th:aria-current="${page == 'ingredienti'} ? 'page'"
-              th:href="@{/ingredienti}"
-              >Ingredienti</a
-            >
-          </li>
-        </ul>
+        <!-- Menu di navigazione -->
+        <div
+          class="collapse navbar-collapse justify-content-center"
+          id="navbarNav"
+        >
+          <ul class="navbar-nav gap-2 gap-lg-4 text-center m-0 p-0">
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                th:classappend="${page == 'homepage'} ? 'active'"
+                th:aria-current="${page == 'homepage'} ? 'page'"
+                th:href="@{/homepage}"
+                >Home</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                th:classappend="${page == 'pizzas'} ? 'active'"
+                th:aria-current="${page == 'pizzas'} ? 'page'"
+                th:href="@{/pizzas}"
+                >Pizze</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                th:classappend="${page == 'offerts'} ? 'active'"
+                th:aria-current="${page == 'offers'} ? 'page'"
+                th:href="@{/offers}"
+                >Offerte</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                th:classappend="${page == 'ingredienti'} ? 'active'"
+                th:aria-current="${page == 'ingredienti'} ? 'page'"
+                th:href="@{/ingredienti}"
+                >Ingredienti</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AREA 3: Destra (Bottone) - Prende il 33% dello spazio e spinge a destra -->
+      <div class="d-flex justify-content-end pe-3 pe-lg-5" style="flex: 1">
+        <a
+          th:if="${page == 'pizzas'}"
+          th:href="@{/pizzas/create}"
+          class="btn btn-success text-nowrap shadow-sm"
+        >
+          Nuova Pizza
+        </a>
       </div>
     </div>
   </nav>

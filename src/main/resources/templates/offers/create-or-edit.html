@@ -6,9 +6,7 @@
     <th:block th:replace="~{fragments/head :: head('Offerte')}" />
   </head>
   <body class="bg-light">
-    <div
-      th:replace="~{fragments/navbar :: navbar('Nuova offerta','offers')}"
-    ></div>
+    <div th:replace="~{fragments/navbar :: navbar('Offerte','offers')}"></div>
 
     <div class="container my-5">
       <div class="row justify-content-center">
@@ -16,10 +14,19 @@
           <!-- Card contenitore per il modulo -->
           <div class="card shadow-sm border-0">
             <div class="card-body p-4 p-md-5">
-              <h2 class="card-title h4 mb-4 text-dark fw-bold text-center">
+              <h2
+                th:unless="${edit}"
+                class="card-title h4 mb-4 text-dark fw-bold text-center"
+              >
                 Crea Nuova Offerta
               </h2>
 
+              <h2
+                th:if="${edit}"
+                class="card-title h4 mb-4 text-dark fw-bold text-center"
+              >
+                Modifica offerta "[[${offerta.nome}]]"
+              </h2>
               <form
                 class="row g-4 needs-validation"
                 novalidate

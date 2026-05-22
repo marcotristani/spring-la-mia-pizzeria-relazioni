@@ -1,100 +1,186 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <th:block th:replace="~{fragments/head :: head('Create')}"></th:block>
+    <th:block
+      th:replace="~{fragments/head :: head('Gestione Pizza')}"
+    ></th:block>
   </head>
-  <body>
-    <div class="container">
-      <div class="row">
-        <h1 th:if="${edit}">pagina Edit</h1>
-        <h1 th:unless="${edit}">pagina Create</h1>
+  <body class="bg-light">
+    <!-- Navbar inclusa (mostra il titolo e gestisce lo spazio) -->
+    <th:block
+      th:replace="~{fragments/navbar :: navbar(${edit} ? 'Modifica Pizza' : 'Crea Nuova Pizza', 'pizzas')}"
+    />
 
-    <form
-      id="form-pizza"
-      th:action="${edit} ? @{|/pizzas/${pizza.id}/edit|} : @{/pizzas/create}"
-      method="post"
-      th:object="${pizza}"
-      class="row g-3 needs-validation"
-      novalidate
-    >
-      <div class="col-md-8">
-        <label for="nome" class="form-label">Nome</label>
-        <input
-          type="text"
-          class="form-control"
-          id="nome"
-          placeholder="Margherita"
-          th:field="*{nome}"
-          th:errorClass="is-invalid"
-          th:classappend="${#fields.hasAnyErrors() and !#fields.hasErrors('nome')} ? 'is-valid'"
-          required
-        />
-        <!-- <div class="valid-feedback">Campo valido!</div> -->
-        <div class="invalid-feedback" th:if="${#fields.hasErrors('nome')}">
-            <div th:each="error : ${#fields.errors('nome')}">[[${error}]]</div>
+    <div class="container my-5">
+      <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+          <!-- Card contenitore identica al form delle offerte -->
+          <div class="card shadow-sm border-0">
+            <div class="card-body p-4 p-md-5">
+              <h2
+                th:if="${edit}"
+                class="card-title h4 mb-4 text-dark fw-bold text-center"
+              >
+                Modifica della Pizza
+              </h2>
+              <h2
+                th:unless="${edit}"
+                class="card-title h4 mb-4 text-dark fw-bold text-center"
+              >
+                Crea Nuova Pizza
+              </h2>
+
+              <form
+                id="form-pizza"
+                th:action="${edit} ? @{|/pizzas/${pizza.id}/edit|} : @{/pizzas/create}"
+                method="post"
+                th:object="${pizza}"
+                class="row g-4 needs-validation"
+                novalidate
+              >
+                <!-- Campo Nome -->
+                <div class="col-md-8">
+                  <label
+                    for="nome"
+                    class="form-label fw-semibold small text-muted"
+                    >Nome pizza:</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control form-control-lg fs-6"
+                    id="nome"
+                    placeholder="Es. Margherita"
+                    th:field="*{nome}"
+                    th:errorClass="is-invalid"
+                    th:classappend="${#fields.hasAnyErrors() and !#fields.hasErrors('nome')} ? 'is-valid'"
+                    required
+                  />
+                  <div
+                    class="invalid-feedback"
+                    th:if="${#fields.hasErrors('nome')}"
+                  >
+                    <div th:each="error : ${#fields.errors('nome')}">
+                      [[${error}]]
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Campo Prezzo -->
+                <div class="col-md-4">
+                  <label
+                    for="price"
+                    class="form-label fw-semibold small text-muted"
+                    >Prezzo:</label
+                  >
+                  <div class="input-group has-validation">
+                    <span
+                      class="input-group-text bg-white border-end-0 text-muted fs-6"
+                      >$</span
+                    >
+                    <input
+                      type="number"
+                      step="0.01"
+                      min="0.00"
+                      class="form-control form-control-lg fs-6"
+                      id="price"
+                      placeholder="0.00"
+                      th:field="*{price}"
+                      th:errorClass="is-invalid"
+                      th:classappend="${#fields.hasAnyErrors() and !#fields.hasErrors('price')} ? 'is-valid'"
+                      required
+                    />
+                    <div
+                      class="invalid-feedback"
+                      th:if="${#fields.hasErrors('price')}"
+                    >
+                      <div th:each="error : ${#fields.errors('price')}">
+                        [[${error}]]
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Campo URL Immagine -->
+                <div class="col-12">
+                  <label
+                    for="url-image"
+                    class="form-label fw-semibold small text-muted"
+                    >URL immagine copertina:</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control form-control-lg fs-6"
+                    id="url-image"
+                    placeholder="https://esempio.com"
+                    th:field="*{url_image}"
+                    th:errorClass="is-invalid"
+                    th:classappend="${#fields.hasAnyErrors() and !#fields.hasErrors('url_image')} ? 'is-valid'"
+                    required
+                  />
+                  <div
+                    class="invalid-feedback"
+                    th:if="${#fields.hasErrors('url_image')}"
+                  >
+                    <div th:each="error : ${#fields.errors('url_image')}">
+                      [[${error}]]
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Campo Descrizione -->
+                <div class="col-12">
+                  <label
+                    for="description"
+                    class="form-label fw-semibold small text-muted"
+                    >Descrizione degli ingredienti:</label
+                  >
+                  <textarea
+                    class="form-control fs-6"
+                    id="description"
+                    rows="4"
+                    placeholder="Inserisci la descrizione o la lista degli ingredienti..."
+                    th:field="*{description}"
+                    th:errorClass="is-invalid"
+                    th:classappend="${#fields.hasAnyErrors() and !#fields.hasErrors('description')} ? 'is-valid'"
+                  ></textarea>
+                  <div
+                    class="invalid-feedback"
+                    th:if="${#fields.hasErrors('description')}"
+                  >
+                    <div th:each="error : ${#fields.errors('description')}">
+                      [[${error}]]
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Pulsanti di azione -->
+                <div class="col-12 pt-2 d-grid gap-2">
+                  <input
+                    th:unless="${edit}"
+                    class="btn btn-primary btn-lg fs-6 shadow-sm"
+                    type="submit"
+                    value="Crea nuova pizza"
+                  />
+                  <input
+                    th:if="${edit}"
+                    class="btn btn-primary btn-lg fs-6 shadow-sm"
+                    type="submit"
+                    value="Aggiorna la pizza"
+                  />
+                  <a
+                    th:href="@{/pizzas}"
+                    class="btn btn-link btn-sm text-decoration-none text-muted"
+                  >
+                    Torna alla lista pizze
+                  </a>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="col-md-4">
-        <label for="price" class="form-label">Prezzo</label>
-        <div class="input-group has-validation">
-          <label class="input-group-text" for="price" >$</label>
-          <input
-            type="number"
-            step="0.01"
-            min="0.00"
-            class="form-control"
-            id="price"
-            placeholder="0.00"
-            th:field="*{price}"
-            th:errorClass="is-invalid"
-            th:classappend="${#fields.hasAnyErrors() and !#fields.hasErrors('price')} ? 'is-valid'"
-            required
-          />
-          <div class="invalid-feedback" th:if="${#fields.hasErrors('price')}">
-            <div th:each="error : ${#fields.errors('price')}">[[${error}]]</div>
-        </div>
-        </div>
-      </div>
-      <div class="col-md-9">
-        <label for="url-image" class="form-label">Url immagine</label>
-        <input
-          type="text"
-          class="form-control"
-          id="url-image"
-          placeholder="https://png.pngtree.com/png-vector/20250825/ourlarge/pngtree-delicious-margherita-pizza-illustration-png-image_17178157.webp"
-          th:field="*{url_image}"
-          th:errorClass="is-invalid"
-          th:classappend="${#fields.hasAnyErrors() and !#fields.hasErrors('url_image')} ? 'is-valid'"
-          required
-        />
-          <div class="invalid-feedback" th:if="${#fields.hasErrors('url_image')}">
-            <div th:each="error : ${#fields.errors('url_image')}">[[${error}]]</div>
-        </div>
-      <div class="col-md-12">
-        <label for="description" class="form-label">Descrizione</label>
-        <textarea 
-         class="form-control"
-         id="description" 
-         rows="3" 
-         placeholder="Inserisci la descrizione della pizza" 
-         th:field="*{description}" 
-         th:errorClass="is-invalid"
-         th:classappend="${#fields.hasAnyErrors() and !#fields.hasErrors('description')} ? 'is-valid'"/>
-        <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}">
-          <div th:each="error : ${#fields.errors('description')}">[[${error}]]</div>
-        </div>     
-       </div>
-
-      <div class="col-12 my-3">
-        <input th:unless="${edit}"class="btn btn-primary" type="submit" value="Crea nuova pizza"/>
-        <input th:if="${edit}"class="btn btn-primary" type="submit" value="Aggiorna la pizza"/>
-      </div>
-    </form>
-  </div>  
-  </div>
-
-  
+    </div>
   </body>
 </html>
