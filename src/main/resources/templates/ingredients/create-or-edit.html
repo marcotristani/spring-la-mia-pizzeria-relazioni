@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="it" xmlns:th="http://thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <th:block th:replace="~{fragments/head :: head('Offerte')}" />
+  </head>
+  <body class="bg-light">
+    <div
+      th:replace="~{fragments/navbar :: navbar('Ingredienti','ingredients')}"
+    ></div>
+
+    <div class="container my-5">
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+          <!-- Card contenitore per il modulo -->
+          <div class="card shadow-sm border-0">
+            <div class="card-body p-4 p-md-5">
+              <h2
+                th:unless="${edit}"
+                class="card-title h4 mb-4 text-dark fw-bold text-center"
+              >
+                Crea Nuovo Ingrediente
+              </h2>
+
+              <h2
+                th:if="${edit}"
+                class="card-title h4 mb-4 text-dark fw-bold text-center"
+              >
+                Modifica ingrediente "[[${ingrediente.nome}]]"
+              </h2>
+              <form
+                class="row g-4 needs-validation"
+                novalidate
+                th:action="${edit} ? @{|/ingredients/${ingrediente.id}/edit|} : @{/ingredients/create}"
+                method="post"
+                th:object="${ingrediente}"
+              >
+                <!-- <input type="hidden" id="pizza_id" th:field="*{pizza.id}" /> -->
+                <div class="col-12">
+                  <label
+                    for="nome"
+                    class="form-label fw-semibold small text-muted"
+                    >Nome ingrediente:</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control form-control-lg fs-6"
+                    id="nome"
+                    placeholder="Es. Zucchina"
+                    th:field="*{nome}"
+                    th:errorClass="is-invalid"
+                    th:classappend="${#fields.hasAnyErrors() and !#fields.hasErrors('nome')} ? 'is-valid'"
+                    required
+                  />
+                  <div
+                    class="invalid-feedback"
+                    th:if="${#fields.hasErrors('nome')}"
+                  >
+                    <div th:each="error : ${#fields.errors('nome')}">
+                      [[${error}]]
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12 pt-2 d-grid gap-2">
+                  <input
+                    class="btn btn-primary btn-lg fs-6 shadow-sm"
+                    type="submit"
+                    value="Salva Ingrediente"
+                  />
+                  <a
+                    th:href="@{/ingredients}"
+                    class="btn btn-link btn-sm text-decoration-none text-muted"
+                  >
+                    Torna alla lista
+                  </a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

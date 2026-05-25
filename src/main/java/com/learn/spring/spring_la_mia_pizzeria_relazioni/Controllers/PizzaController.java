@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.learn.spring.spring_la_mia_pizzeria_relazioni.models.Offerte;
 import com.learn.spring.spring_la_mia_pizzeria_relazioni.models.Pizza;
+import com.learn.spring.spring_la_mia_pizzeria_relazioni.repository.OfferteRepository;
 import com.learn.spring.spring_la_mia_pizzeria_relazioni.repository.PizzaRepository;
 
 import jakarta.validation.Valid;
@@ -25,6 +26,9 @@ public class PizzaController {
 
     @Autowired
     private PizzaRepository repositoryPizza;
+
+    @Autowired
+    private OfferteRepository repositoryOfferta;
 
     @GetMapping
     public String index(Model model) {
@@ -76,7 +80,13 @@ public class PizzaController {
 
     @PostMapping("/{id}/delete")
     public String delete(Model model, @PathVariable("id") Integer id) {
-        repositoryPizza.deleteById(id);
+
+        Pizza pizzaDaEliminare = repositoryPizza.findById(id).get();
+        for (Offerte offertaDaEliminare : pizzaDaEliminare.getOfferte()) {
+            repositoryOfferta.delete(offertaDaEliminare);
+        }
+        repositoryPizza.delete(pizzaDaEliminare);
+
         return "redirect:/pizzas";
     }
 
