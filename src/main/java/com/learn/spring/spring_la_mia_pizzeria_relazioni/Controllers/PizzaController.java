@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.learn.spring.spring_la_mia_pizzeria_relazioni.models.Offerte;
 import com.learn.spring.spring_la_mia_pizzeria_relazioni.models.Pizza;
+import com.learn.spring.spring_la_mia_pizzeria_relazioni.repository.IngredientiRepository;
 import com.learn.spring.spring_la_mia_pizzeria_relazioni.repository.OfferteRepository;
 import com.learn.spring.spring_la_mia_pizzeria_relazioni.repository.PizzaRepository;
 
@@ -30,6 +31,9 @@ public class PizzaController {
     @Autowired
     private OfferteRepository repositoryOfferta;
 
+    @Autowired
+    private IngredientiRepository repositoryIngrediente;
+
     @GetMapping
     public String index(Model model) {
 
@@ -47,12 +51,14 @@ public class PizzaController {
     @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("pizza", new Pizza());
+        model.addAttribute("ingredienti", repositoryIngrediente.findAll());
         return "pizzas/create-or-edit";
     }
 
     @PostMapping("/create")
     public String store(@Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("ingredienti", repositoryIngrediente.findAll());
             return "pizzas/create-or-edit";
         }
 
@@ -63,6 +69,7 @@ public class PizzaController {
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") Integer id) {
         model.addAttribute("pizza", repositoryPizza.findById(id).get());
+        model.addAttribute("ingredienti", repositoryIngrediente.findAll());
         model.addAttribute("edit", true);
         return "pizzas/create-or-edit";
     }
@@ -70,6 +77,7 @@ public class PizzaController {
     @PostMapping("/{id}/edit")
     public String update(@Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("ingredienti", repositoryIngrediente.findAll());
             model.addAttribute("edit", true);
             return "pizzas/create-or-edit";
         }

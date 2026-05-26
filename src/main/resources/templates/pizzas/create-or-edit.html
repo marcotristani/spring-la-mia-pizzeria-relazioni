@@ -208,6 +208,41 @@
                   </div>
                 </div>
 
+                <!-- Sezione Selezione Ingredienti -->
+                <div class="col-12">
+                  <label
+                    class="form-label fw-semibold small text-muted d-block mb-2"
+                    >Ingredienti:</label
+                  >
+
+                  <!-- Griglia responsiva per i checkbox degli ingredienti -->
+                  <div
+                    class="row g-3 p-3 bg-white border rounded shadow-sm mx-0"
+                  >
+                    <div
+                      th:each="ingrediente : ${ingredienti}"
+                      class="col-sm-6 col-md-4"
+                    >
+                      <div class="form-check">
+                        <input
+                          type="checkbox"
+                          class="form-check-input"
+                          th:id="|ingrediente-${ingrediente.id}|"
+                          th:field="*{ingredienti}"
+                          th:value="${ingrediente.id}"
+                        />
+                        <label
+                          class="form-check-label fw-medium text-dark small"
+                          th:for="|ingrediente-${ingrediente.id}|"
+                          th:text="${ingrediente.nome}"
+                        >
+                          Nome Ingrediente
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 <!-- Pulsanti di azione finali -->
                 <div class="col-12 pt-2 d-grid gap-2">
                   <input

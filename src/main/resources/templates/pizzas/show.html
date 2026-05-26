@@ -2,90 +2,138 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
-    <!-- Sostituito con th:block per mantenere la validità del frammento head -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <th:block th:replace="~{fragments/head :: head(|Pizza ${pizza.nome}|)}" />
   </head>
   <body class="bg-light">
     <!-- Navbar inclusa globalmente in cima alla pagina -->
     <div th:replace="~{fragments/navbar :: navbar(Pizze, 'pizzas')}"></div>
 
-    <div th:object="${pizza}" class="container my-5" style="max-width: 600px">
-      <!-- Card Dettaglio Pizza -->
-      <div class="card shadow-sm border-0 mb-4">
+    <div th:object="${pizza}" class="container my-5" style="max-width: 650px">
+      <!-- Card Principale Dettaglio Pizza -->
+      <div class="card shadow-sm border-0 mb-4 overflow-hidden">
+        <!-- Immagine di Copertina -->
         <img
           th:if="*{url_image != null and !url_image.empty}"
           th:src="*{url_image}"
-          class="card-img-top"
+          class="card-img-top w-100"
           th:alt="*{nome}"
-          style="height: 300px; object-fit: cover"
+          style="height: 320px; object-fit: cover"
         />
 
-        <div class="card-body text-center py-4">
-          <h1 class="card-title h3 mb-3 text-dark fw-bold" th:text="*{nome}">
+        <div class="card-body p-4 p-md-5 text-center">
+          <h1 class="card-title h2 mb-3 text-dark fw-bold" th:text="*{nome}">
             Nome Pizza
           </h1>
-          <p class="card-text text-muted mb-4" th:text="*{description}">
+          <p
+            class="card-text text-muted fs-6 mb-4 px-md-3"
+            th:text="*{description}"
+          >
             Descrizione dettagliata della pizza...
           </p>
-          <div class="h4 text-success fw-bold mb-4">
+          <div class="h3 text-success fw-extrabold mb-4">
             <span th:text="*{price}">0.00</span> €
           </div>
 
-          <div class="d-flex justify-content-center gap-2">
-            <a th:href="@{|/pizzas/*{id}/edit|}" class="btn btn-primary px-4">
-              <i class="bi bi-pencil"></i> Modifica Pizza
+          <!-- Pulsanti d'Azione Principali -->
+          <div class="d-flex justify-content-center gap-2 pt-2 border-top">
+            <a
+              th:href="@{/pizzas/{id}/edit(id=${pizza.id})}"
+              class="btn btn-primary px-4 fw-medium shadow-sm"
+            >
+              <i class="bi bi-pencil-square me-1"></i> Modifica
             </a>
             <button
               type="button"
-              class="btn btn-danger px-4"
+              class="btn btn-outline-danger px-4 fw-medium"
               data-bs-toggle="modal"
-              th:data-bs-target="|#delete-pizza-*{id}|"
+              th:data-bs-target="'#delete-pizza-' + ${pizza.id}"
             >
-              Elimina Pizza
+              <i class="bi bi-trash3 me-1"></i> Elimina
             </button>
           </div>
         </div>
       </div>
 
-      <!-- SEZIONE OFFERTE -->
-      <div class="card shadow-sm border-0 p-4">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h2 class="h5 text-dark fw-bold mb-0">Offerte Attive</h2>
-          <!-- Bottone Aggiungi Offerta -->
-          <a
-            th:href="@{|/pizzas/*{id}/offerta|}"
-            class="btn btn-sm btn-outline-success px-3"
-            >Nuova Offerta
-          </a>
+      <!-- Card Secondaria: Ingredienti e Offerte Unificati -->
+      <div class="card shadow-sm border-0 p-4 mb-4">
+        <!-- SEZIONE INGREDIENTI -->
+        <div class="mb-4 pb-4 border-bottom">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <i class="bi bi-egg-fried text-warning fs-4"></i>
+            <h2 class="h5 text-dark fw-bold mb-0">Ingredienti</h2>
+          </div>
+
+          <!-- Lista degli ingredienti (Visualizzazione a Badge orizzontali) -->
+          <div
+            th:if="*{not #lists.isEmpty(ingredienti)}"
+            class="d-flex flex-wrap gap-2 pt-1"
+          >
+            <span
+              th:each="ingrediente : *{ingredienti}"
+              th:text="${ingrediente.nome}"
+              class="badge bg-secondary-subtle text-secondary-emphasis border border-secondary-subtle px-3 py-2 rounded-pill fs-6 fw-medium"
+            >
+              Nome Ingrediente
+            </span>
+          </div>
+
+          <!-- Messaggio di fallback se non ci sono ingredienti -->
+          <div
+            th:if="*{#lists.isEmpty(ingredienti)}"
+            class="text-center py-3 bg-light rounded text-muted small"
+          >
+            <i class="bi bi-info-circle me-1"></i> Nessun ingrediente inserito
+            in questa pizza.
+          </div>
         </div>
 
-        <!-- Lista delle Offerte -->
-        <ul
-          th:if="*{not #lists.isEmpty(offerte)}"
-          class="list-group list-group-flush"
-        >
-          <li
-            th:each="offerta : *{offerte}"
-            class="list-group-item d-flex justify-content-between align-items-center px-0 py-2"
-          >
+        <!-- SEZIONE OFFERTE -->
+        <div>
+          <div class="d-flex justify-content-between align-items-center mb-3">
             <div class="d-flex align-items-center gap-2">
-              <span th:text="${offerta.nome}" class="text-dark fw-medium"
-                >Nome Offerta</span
-              >
+              <i class="bi bi-tags text-success fs-4"></i>
+              <h2 class="h5 text-dark fw-bold mb-0">Offerte Attive</h2>
             </div>
-          </li>
-        </ul>
+            <!-- Bottone Aggiungi Offerta -->
+            <a
+              th:href="@{/pizzas/{id}/offerta(id=${pizza.id})}"
+              class="btn btn-sm btn-outline-success px-3 fw-medium"
+            >
+              <i class="bi bi-plus-lg me-1"></i> Nuova Offerta
+            </a>
+          </div>
 
-        <!-- Messaggio se non ci sono offerte -->
-        <div
-          th:if="*{#lists.isEmpty(offerte)}"
-          class="text-center py-3 text-muted small"
-        >
-          Nessuna offerta attiva per questa pizza.
+          <!-- Lista delle Offerte -->
+          <ul
+            th:if="*{not #lists.isEmpty(offerte)}"
+            class="list-group list-group-flush"
+          >
+            <li
+              th:each="offerta : *{offerte}"
+              class="list-group-item d-flex justify-content-between align-items-center px-0 py-2.5 text-dark fw-medium"
+            >
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-check-circle-fill text-success small"></i>
+                <span th:text="${offerta.nome}">Nome Offerta</span>
+              </div>
+            </li>
+          </ul>
+
+          <!-- Messaggio di fallback se non ci sono offerte -->
+          <div
+            th:if="*{#lists.isEmpty(offerte)}"
+            class="text-center py-3 bg-light rounded text-muted small"
+          >
+            <i class="bi bi-lightning me-1"></i> Nessuna offerta attiva per
+            questa pizza.
+          </div>
         </div>
       </div>
+      <!-- Fine Card Secondaria -->
     </div>
 
+    <!-- Modale di eliminazione -->
     <div
       th:replace="~{fragments/delete-modal :: delete-modal(${pizza}, 'pizza')}"
     ></div>
