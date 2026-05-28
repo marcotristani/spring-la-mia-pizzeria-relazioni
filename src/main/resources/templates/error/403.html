@@ -3,19 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <th:block th:replace="~{fragments/head :: head('Error 404-Not Found')}" />
+    <th:block th:replace="~{fragments/head :: head('Error 403-Forbidden')}" />
   </head>
-
   <body class="bg-light d-flex align-items-center vh-100">
     <div class="container text-center">
       <div class="card shadow p-5 mx-auto" style="max-width: 500px">
-        <h1 class="text-danger display-1 fw-bold">404</h1>
-        <h2 class="mb-4">Not Found</h2>
-
-        <!-- Mostra il messaggio dinamico dal GlobalExceptionHandler -->
-        <p class="text-muted mb-4" th:text="${messageError}">
-          Non sei autorizzato a vedere questa risorsa.
-        </p>
+        <h1 class="text-danger display-1 fw-bold">403</h1>
+        <h2 class="mb-4">Accesso Vietato</h2>
 
         <div class="d-grid gap-2">
           <a href="/pizzas" class="btn btn-primary">Torna al Menu Pizze</a>

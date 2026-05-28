@@ -35,6 +35,6 @@ public class GlobalExceptionHandler {
         System.out.println("Errore imprevisto: " + ex.getMessage());
 
         model.addAttribute("messageError", "Si è verificato un errore interno. Riprova più tardi.");
-        return "error/500"; // Mostra una pagina templates/error/500.html
+        return "error/500";
     }
 }
