@@ -41,7 +41,7 @@
                 class="nav-link"
                 th:classappend="${page == 'homepage'} ? 'active'"
                 th:aria-current="${page == 'homepage'} ? 'page'"
-                th:href="@{/homepage}"
+                th:href="@{/}"
                 >Home</a
               >
             </li>
@@ -77,7 +77,11 @@
       </div>
 
       <!-- AREA 3: Destra (Bottone) - Prende il 33% dello spazio e spinge a destra -->
-      <div class="d-flex justify-content-end pe-3 pe-lg-5" style="flex: 1">
+      <div
+        class="d-flex justify-content-end pe-3 pe-lg-5"
+        style="flex: 1"
+        sec:authorize="hasAuthority('ADMIN')"
+      >
         <a
           th:if="${page == 'pizzas'}"
           th:href="@{/pizzas/create}"
@@ -93,6 +97,9 @@
           Nuovo Ingrediente
         </a>
       </div>
+      <a th:href="@{/logout}" class="btn btn-success text-nowrap shadow-sm">
+        logout
+      </a>
     </div>
   </nav>
 </th:block>
