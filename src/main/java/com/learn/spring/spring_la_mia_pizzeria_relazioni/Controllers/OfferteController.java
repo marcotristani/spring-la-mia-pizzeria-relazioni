@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.learn.spring.spring_la_mia_pizzeria_relazioni.models.Offerte;
-import com.learn.spring.spring_la_mia_pizzeria_relazioni.repository.OfferteRepository;
+import com.learn.spring.spring_la_mia_pizzeria_relazioni.service.OffertService;
+
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -19,11 +20,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class OfferteController {
 
     @Autowired
-    private OfferteRepository offerteRepository;
+    private OffertService offertaService;
 
     @GetMapping
     public String index(Model model) {
-        model.addAttribute("offerte", offerteRepository.findAll());
+        model.addAttribute("offerte", offertaService.findAll());
         return "offers/index";
     }
 
@@ -40,13 +41,13 @@ public class OfferteController {
         if (bindingResult.hasErrors()) {
             return "offers/create-or-edit";
         }
-        offerteRepository.save(formOfferta);
+        offertaService.create(formOfferta);
         return "redirect:/offers";
     }
 
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") Integer id, Model model) {
-        model.addAttribute("offerta", offerteRepository.findById(id).get());
+        model.addAttribute("offerta", offertaService.getById(id));
         model.addAttribute("edit", true);
         return "offers/create-or-edit";
     }
@@ -59,13 +60,13 @@ public class OfferteController {
             model.addAttribute("edit", true);
             return "offers/create-or-edit";
         }
-        offerteRepository.save(formOfferta);
+        offertaService.edit(formOfferta);
         return "redirect:/offers";
     }
 
     @PostMapping("/{id}/delete")
     public String delete(Model model, @PathVariable("id") Integer id) {
-        offerteRepository.deleteById(id);
+        offertaService.deleteById(id);
         return "redirect:/offers";
     }
 

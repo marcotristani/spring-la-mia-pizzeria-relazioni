@@ -48,7 +48,6 @@ public class PizzaRestController {
 
     @PostMapping
     public ResponseEntity<Pizza> store(@Valid @RequestBody Pizza pizza) {
-
         return new ResponseEntity<Pizza>(pizzaService.create(pizza), HttpStatus.CREATED);
     }
 
