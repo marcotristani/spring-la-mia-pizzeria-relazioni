@@ -1,6 +1,7 @@
 package com.learn.spring.spring_la_mia_pizzeria_relazioni.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,10 @@ public class PizzaService {
 
         Pizza pizza = repositoryPizza.findById(id).get();
         return pizza;
+    }
+
+    public Optional<Pizza> findByid(Integer id) {
+        return repositoryPizza.findById(id);
     }
 
     public Pizza create(Pizza pizza) {
